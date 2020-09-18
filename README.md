@@ -20,13 +20,24 @@ CentOS 8 & Fedora:
 
 `sudo dnf install podman`
 
+### Gather the input data
+
+You will need to the following:
+
+* Backup account **password** - that one will be typically shared to you in a private and secure way.
+* Backup **server** hostname or IP.
+* Backup account **username**, backup server **fingerprint** - you also need to be told these, but it doesn't have to be public.
+* **Directory** to backup, identification of the system on the backup server (**hostname**)
+
 Set the environment variables:
 
-* PBS_PASSWORD
-* PBS_FINGERPRINT
+* `PBS_PASSWORD`
+* `PBS_FINGERPRINT`
 
 this env are necessary because the container tool is not able to interact a ask for password and fingerprint.  
 
+In the following example, hostname is set to `my_hostname`, directory is `/home/john`, server is `pbs-server` and username is `myuser`.
+Among other things, `mydata`, `pbs` in `myuser@pbs@pbs-server` and `backup01` are constants to keep as-is, unless you are told otherwise.
 
 `podman run -i --rm -h my_hostname -v /home/john:/mydata -e PBS_PASSWORD -e PBS_FINGERPRINT --security-opt label=disable quay.io/alebeta/proxmox-backup-cli:latest backup backup.pxar:/mydata/ --repository myuser@pbs@pbs-server:backup01`
 
